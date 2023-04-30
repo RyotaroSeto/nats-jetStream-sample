@@ -65,3 +65,6 @@
 ### 状態確認
 - http://localhost:8222/
 - http://localhost:8282/
+
+### Subscriptionの数など
+- http://localhost:8222/subsz

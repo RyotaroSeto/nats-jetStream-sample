@@ -5,8 +5,8 @@ networks:
 services:
   nats:
     container_name: nats
-    # image: nats:2.7.2-alpine
-    image: nats:latest
+    image: nats:2.7.2-alpine
+    # image: nats:latest
     networks:
       - natsnet
     command:
