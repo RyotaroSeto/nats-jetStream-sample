@@ -22,7 +22,7 @@ func main() {
 		// return
 	}
 
-	// Delete(js, strName)
+	Delete(js, strName)
 
 	r := gin.Default()
 	if err := r.Run(":8080"); err != nil {
@@ -45,6 +45,7 @@ func JetStreamContext(nc *nats.Conn) nats.JetStreamContext {
 	return js
 }
 
+// Create a Stream
 func Create(js nats.JetStreamContext, name string) *nats.StreamInfo {
 	fmt.Printf("Creating stream: %q\n", name)
 	strInfo, err := js.AddStream(&nats.StreamConfig{
@@ -69,6 +70,21 @@ func prettyPrint(x interface{}) {
 	fmt.Println(string(b))
 }
 
+// Update a Stream
+func Update(js nats.JetStreamContext, name string) *nats.StreamInfo {
+	fmt.Printf("Update stream: %q\n", name)
+	strInfo, err := js.UpdateStream(&nats.StreamConfig{
+		Name:   name,
+		MaxAge: 8,
+	})
+	if err != nil {
+		log.Panicf("could not update stream: %v", err)
+	}
+	prettyPrint(strInfo)
+	return strInfo
+}
+
+// Delete Stream
 func Delete(js nats.JetStreamContext, name string) {
 	fmt.Printf("Deleting stream: %q\n", name)
 	if err := js.DeleteStream(name); err != nil {
