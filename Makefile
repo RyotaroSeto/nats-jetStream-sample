@@ -1,2 +1,2 @@
 nats:
-	docker-compose exec nats-jetstream ash
+	docker-compose exec nats ash

@@ -1,6 +1,14 @@
+networks:
+  natsnet:
+    external: true
+
 services:
-  nats-jetstream:
-    image: "nats:2.3.2-alpine"
+  nats:
+    container_name: nats
+    # image: nats:2.7.2-alpine
+    image: nats:latest
+    networks:
+      - natsnet
     command:
       - "--port"
       - "4222"
@@ -13,5 +21,30 @@ services:
     ports:
       - "4222:4222"
       - "8222:8222"
+      - "6222:6222"
     volumes:
       - ".docker-data/nats-jet-stream:/data"
+
+  nats-streaming-ui:
+    image: "piotrpersona/nats-streaming-ui:latest"
+    container_name: nats-streaming-ui
+    restart: always
+    networks:
+      - natsnet
+    depends_on:
+      - nats
+    ports:
+      - "8282:8282"
+
+  golang:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - natsnet
+    depends_on:
+      - nats
+    volumes:
+      - ./:/app:delegated

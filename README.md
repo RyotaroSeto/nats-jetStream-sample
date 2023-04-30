@@ -22,3 +22,10 @@
 -  `nats pub orders.us "{{.Count}}" --count 1000`
 -  `nats pub orders.eu "{{.Count}}" --count 1000`
 
+
+## Docker
+### network作成
+- `docker network create natsnet`
+### 状態確認
+- http://localhost:8222/
+- http://localhost:8282/
